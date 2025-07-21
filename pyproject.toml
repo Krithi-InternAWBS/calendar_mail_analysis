@@ -1,0 +1,110 @@
+[tool.poetry]
+name = "excel-dashboard"
+version = "0.1.0"
+description = "Excel Dashboard Application with Content Quality Analysis"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [
+    {include = "dashboard"},
+    {include = "data"},
+    {include = "reports"}
+]
+
+[tool.poetry.dependencies]
+# Use Python 3.11 or 3.12 for better compatibility
+python = "^3.11"
+
+# Core dependencies
+pandas = "^2.0.0"
+numpy = "^1.24.0"
+
+# Visualization libraries (replacing seaborn)
+matplotlib = "^3.7.0"
+plotly = "^5.15.0"
+
+# Dashboard and web framework
+streamlit = "^1.28.0"
+fastapi = "^0.104.0"
+uvicorn = {extras = ["standard"], version = "^0.24.0"}
+
+# Data processing
+openpyxl = "^3.1.0"
+xlsxwriter = "^3.1.0"
+
+# Logging and utilities
+loguru = "^0.7.0"
+python-dotenv = "^1.0.0"
+pydantic = "^2.5.0"
+
+# Optional: If you still want seaborn, use latest version
+# seaborn = "^0.13.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+black = "^23.0.0"
+flake8 = "^6.0.0"
+mypy = "^1.5.0"
+pytest-cov = "^4.1.0"
+pre-commit = "^3.4.0"
+
+[tool.poetry.group.test.dependencies]
+pytest-asyncio = "^0.21.0"
+httpx = "^0.25.0"
+factory-boy = "^3.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-fail-under=80"
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__init__.py"
+]
